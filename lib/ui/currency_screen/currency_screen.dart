@@ -14,7 +14,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   final CurrencyRepository currencyRepository =
       CurrencyRepository(apiProvider: ApiProvider());
 
-  List<CurrencyModel> currensieas = [];
+  WeatherMainModel currensieas =
+      WeatherMainModel(next: null, count: 0, prev: null, weatherModel: []);
 
   bool isLoading = false;
 
@@ -39,24 +40,26 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: FutureBuilder<List<CurrencyModel>>(
+        body: FutureBuilder<WeatherMainModel>(
             future: currencyRepository.fetchCurrencies(),
             builder: (
               BuildContext context,
-              AsyncSnapshot<List<CurrencyModel>> snapshot,
+              AsyncSnapshot<WeatherMainModel> snapshot,
             ) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                List<CurrencyModel> currency = snapshot.data!;
+                WeatherMainModel currency = snapshot.data!;
 
-                return currensieas.isNotEmpty
+                return currensieas.weatherModel.isNotEmpty
                     ? ListView(
-                        children: List.generate(currensieas.length, (index) {
+                        children: List.generate(currensieas.weatherModel.length,
+                            (index) {
                           return ListTile(
-                            title: Text(currency[index].title),
-                            subtitle: Text(currency[index].code),
-                            trailing: Text(currency[index].nbuCellPrice),
+                            title: Text(currency.weatherModel[index].name),
+                            subtitle: Text(currency.weatherModel[index].name),
+                            trailing: Text(
+                                currency.weatherModel[index].user.username),
                           );
                         }),
                       )

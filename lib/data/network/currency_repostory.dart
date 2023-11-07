@@ -6,11 +6,12 @@ class CurrencyRepository {
   final ApiProvider apiProvider;
   CurrencyRepository({required this.apiProvider});
 
-  Future<List<CurrencyModel>> fetchCurrencies() async {
+  Future<WeatherMainModel> fetchCurrencies() async {
     UneversalData uneversalData = await apiProvider.getAllCurrencies();
     if (uneversalData.error.isEmpty) {
-      return uneversalData.data as List<CurrencyModel>;
+      return uneversalData.data as WeatherMainModel;
     }
-    return [];
+    print(uneversalData.error);
+    return WeatherMainModel(next: null, count: 0, prev: null, weatherModel: []);
   }
 }
