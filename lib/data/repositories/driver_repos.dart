@@ -1,0 +1,82 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:api_servis_http/data/local/storage_repository/storage_repository.dart';
+// import 'package:api_servis_http/data/models/driver/driver_model.dart';
+// import 'package:api_servis_http/data/models/result_model.dart';
+// import 'package:api_servis_http/data/models/universal_data.dart';
+// import 'package:api_servis_http/utils/constants/constants.dart';
+// import 'package:api_servis_http/utils/constants/storage_keys.dart';
+
+// class DriverRepo {
+//   Future<UniversalData> addDriver({required DriverModel driverModel}) async {
+//     try {
+//       await FirebaseFirestore.instance
+//           .collection(FirebaseCollections.drivers)
+//           .doc(driverModel.driverId)
+//           .set(driverModel.toJson());
+
+//       return UniversalData(data: 'Driver Added!');
+//     } on FirebaseException catch (e) {
+//       return UniversalData(error: e.code);
+//     } catch (error) {
+//       return UniversalData(error: error.toString());
+//     }
+//   }
+
+//   Future<UniversalData> updateDriver({required DriverModel driverModel}) async {
+//     try {
+//       await FirebaseFirestore.instance
+//           .collection(FirebaseCollections.drivers)
+//           .doc(driverModel.driverId)
+//           .update(driverModel.toJson());
+
+//       return UniversalData(data: "Driver updated!");
+//     } on FirebaseException catch (e) {
+//       return UniversalData(error: e.code);
+//     } catch (error) {
+//       return UniversalData(error: error.toString());
+//     }
+//   }
+
+//   Future<UniversalData> deleteDriver({required String driverId}) async {
+//     try {
+//       await FirebaseFirestore.instance
+//           .collection(FirebaseCollections.drivers)
+//           .doc(driverId)
+//           .delete();
+
+//       return UniversalData(data: "Driver deleted!");
+//     } on FirebaseException catch (e) {
+//       return UniversalData(error: e.code);
+//     } catch (error) {
+//       return UniversalData(error: error.toString());
+//     }
+//   }
+
+//   Stream<DriverModel?> getDriverById() {
+//     return FirebaseFirestore.instance
+//         .collection(FirebaseCollections.drivers)
+//         .doc(StorageRepository.getString(StorageKeys.userId))
+//         .snapshots()
+//         .map((documentSnapshot) {
+//       if (documentSnapshot.exists) {
+//         return DriverModel.fromJson(documentSnapshot.data() ?? {});
+//       } else {
+//         return null; // Return null if the document doesn't exist
+//       }
+//     });
+//   }
+
+//   Future<Result> getDriverByDriverId(String userId) async {
+//     try {
+//       final client = await FirebaseFirestore.instance
+//           .collection(FirebaseCollections.drivers)
+//           .doc(userId)
+//           .get();
+//       return Result.success(DriverModel.fromJson(client.data()!));
+//     } on FirebaseException catch (e) {
+//       return Result.fail(e.code);
+//     } catch (e) {
+//       return Result.fail(e.toString());
+//     }
+//   }
+// }
